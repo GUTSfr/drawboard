@@ -1,0 +1,131 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0e0e10;
+  --surface: #16161a;
+  --surface2: #1e1e24;
+  --surface3: #26262e;
+  --border: #2e2e38;
+  --border2: #3a3a48;
+  --accent: #6c63ff;
+  --accent2: #ff6b6b;
+  --accent3: #43e97b;
+  --text: #f0f0f5;
+  --text2: #a0a0b0;
+  --text3: #606070;
+  --radius: 10px;
+  --radius2: 6px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --shadow2: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ── Utility ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: var(--radius2);
+  font-family: 'Syne', sans-serif; font-weight: 600; font-size: 13px;
+  border: none; cursor: pointer; transition: all 0.15s ease;
+  white-space: nowrap; letter-spacing: 0.3px;
+}
+.btn-primary {
+  background: var(--accent); color: #fff;
+}
+.btn-primary:hover { background: #7c75ff; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(108,99,255,0.4); }
+.btn-secondary {
+  background: var(--surface3); color: var(--text2); border: 1px solid var(--border);
+}
+.btn-secondary:hover { background: var(--border); color: var(--text); }
+.btn-danger {
+  background: rgba(255,107,107,0.15); color: var(--accent2); border: 1px solid rgba(255,107,107,0.3);
+}
+.btn-danger:hover { background: rgba(255,107,107,0.25); }
+.btn-ghost { background: transparent; color: var(--text2); }
+.btn-ghost:hover { background: var(--surface2); color: var(--text); }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-icon { padding: 8px; border-radius: var(--radius2); }
+
+input, textarea {
+  font-family: 'Syne', sans-serif;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius2);
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+input:focus, textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.15);
+}
+input::placeholder { color: var(--text3); }
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; animation: fadeIn 0.15s ease;
+}
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px;
+  width: min(480px, 95vw);
+  box-shadow: var(--shadow);
+  animation: slideUp 0.2s ease;
+}
+.modal h2 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+.modal p { color: var(--text2); font-size: 14px; margin-bottom: 24px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(12px) scale(0.98); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ── Toast ── */
+.toast-container {
+  position: fixed; bottom: 24px; right: 24px;
+  display: flex; flex-direction: column; gap: 8px; z-index: 9999;
+}
+.toast {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 12px 18px;
+  font-size: 13px;
+  box-shadow: var(--shadow);
+  animation: toastIn 0.2s ease;
+  display: flex; align-items: center; gap: 10px; min-width: 220px;
+}
+.toast.success { border-left: 3px solid var(--accent3); }
+.toast.error { border-left: 3px solid var(--accent2); }
+.toast.info { border-left: 3px solid var(--accent); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: none; } }
+
+/* ── Tag/Badge ── */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.badge-owner { background: rgba(108,99,255,0.2); color: var(--accent); }
+.badge-editor { background: rgba(67,233,123,0.15); color: var(--accent3); }
+.badge-viewer { background: rgba(160,160,176,0.15); color: var(--text2); }
