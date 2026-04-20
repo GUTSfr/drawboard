@@ -176,9 +176,15 @@ app.get('/api/pages/:pageId/export', (req, res) => {
 });
 
 // Serve client build
-app.use(express.static(path.join(__dirname, '../client/dist')));
+const distPath = path.join(__dirname, '../client/dist');
+app.use(express.static(distPath));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  const indexPath = path.join(distPath, 'index.html');
+  if (require('fs').existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(200).send('<html><body style="background:#0e0e10;color:white;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div>Building... please wait and refresh</div></body></html>');
+  }
 });
 
 // ─── WebSocket ───────────────────────────────────────────────────────────────

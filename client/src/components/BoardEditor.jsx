@@ -5,9 +5,9 @@ import Canvas from './Canvas.jsx';
 import PermissionsModal from './PermissionsModal.jsx';
 
 const API = '';
-const WS_URL = window.location.protocol === 'https:' 
-  ? `wss://${window.location.host}` 
-  : `ws://${window.location.hostname}:3001`;
+const WS_URL = window.location.protocol === 'https:'
+  ? `wss://${window.location.host}`
+  : `ws://${window.location.host}`;
 
 const TOOLS = [
   { id: 'pen', icon: '✏', label: 'Pen' },
