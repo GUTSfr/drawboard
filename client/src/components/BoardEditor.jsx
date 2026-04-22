@@ -156,7 +156,7 @@ export default function BoardEditor({ boardId, nick, nickColor, onBack }) {
 
   // Add element (from canvas)
   const addElement = useCallback((element) => {
-    const el = { ...element, pageId: currentPageId, nick, color: nickColor };
+    const el = { ...element, pageId: currentPageId, nick };
     setElements(prev => {
       const arr = prev[currentPageId] || [];
       const idx = arr.findIndex(e => e.id === el.id);
