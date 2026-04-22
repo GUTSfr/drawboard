@@ -17,6 +17,10 @@ export default function Canvas({
   const [selectedId, setSelectedId] = useState(null);
   const vpRef = useRef(viewport);
   vpRef.current = viewport;
+  const colorRef = useRef(color);
+  colorRef.current = color;
+  const strokeWidthRef = useRef(strokeWidth);
+  strokeWidthRef.current = strokeWidth;
 
   // ── Canvas size
   const containerRef = useRef(null);
@@ -123,16 +127,18 @@ export default function Canvas({
     }
 
     setDrawing(true);
+    const currentColor = colorRef.current;
+    const currentWidth = strokeWidthRef.current;
     const el = {
       id: uuidv4(),
       type: tool,
-      color,
-      strokeWidth,
+      color: currentColor,
+      strokeWidth: currentWidth,
       points: tool === 'pen' ? [{ x: pos.x, y: pos.y }] : [],
       x1: pos.x, y1: pos.y, x2: pos.x, y2: pos.y,
     };
     setCurrentEl(el);
-  }, [tool, color, strokeWidth, viewport, elements, onDeleteElement]);
+  }, [tool, viewport, elements, onDeleteElement]);
 
   const onMouseMove = useCallback((e) => {
     const pos = getPos(e);
@@ -147,9 +153,9 @@ export default function Canvas({
     if (!drawing || !currentEl) return;
 
     if (currentEl.type === 'pen') {
-      setCurrentEl(el => ({ ...el, points: [...el.points, { x: pos.x, y: pos.y }] }));
+      setCurrentEl(el => ({ ...el, color: colorRef.current, points: [...el.points, { x: pos.x, y: pos.y }] }));
     } else {
-      setCurrentEl(el => ({ ...el, x2: pos.x, y2: pos.y }));
+      setCurrentEl(el => ({ ...el, color: colorRef.current, x2: pos.x, y2: pos.y }));
     }
   }, [panning, panStart, drawing, currentEl, onCursorMove]);
 
@@ -192,8 +198,8 @@ export default function Canvas({
     const el = {
       id: uuidv4(),
       type: 'text',
-      color,
-      strokeWidth,
+      color: colorRef.current,
+      strokeWidth: strokeWidthRef.current,
       x1: textInput.x,
       y1: textInput.y,
       text: textValue,
